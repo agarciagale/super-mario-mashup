@@ -1,0 +1,591 @@
+@import url("layout.css");
+
+@font-face {
+    font-family: pixeloidSans;
+    src: url(../fonts/pixeloid-sans/PixeloidSans.ttf);
+}
+@font-face {
+    font-family: pixeloidSans-bold;
+    src: url(../fonts/pixeloid-sans/PixeloidSans-Bold.ttf);
+}
+
+:root {
+    --pixeloidSans: pixeloidSans, Arial, Helvetica, sans-serif;
+    --pixeloidSans-bold: pixeloidSans-bold, Arial, Helvetica, sans-serif
+}
+
+*{
+    font-family: var(--pixeloidSans-bold)
+}
+
+h1, h2, h3, h4{
+    margin: 10px 0;
+}
+
+body{
+    background-image: url("../img/backgrounds/backgroundStampsLight.png");
+    overflow-y: overlay;
+    overflow-x: hidden;
+}
+
+button{
+    cursor: pointer;
+    border: 2px solid grey;
+}
+
+button:hover{
+    border-color: black;
+}
+
+.btn-active{
+    background-color: #17d306 !important;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888888;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Header styles */
+
+.warning-window{
+    top: -84px;
+    left: 0px;
+    width: 100%;
+    padding: 30px 0;
+    font-size: 20px;
+    background-color: white;
+    color: black;
+    text-align: center;
+    z-index: 99999;
+    transition: 0.4s;
+    text-shadow: 2px 0 black, -2px 0 black, 0 2px black, 0 -2px black;
+}
+  
+.warning-window.show {
+    top: 0px;
+}
+
+.info-zone{
+    background-color: rgb(63, 63, 63);
+    border: 2px solid rgb(179, 98, 255);
+    border-radius: 10px;
+}
+
+.info-zone img{
+    max-width: 50px;
+}
+
+.user-zone{
+    background-color: #dddbdb;
+    border: 2px solid black;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.user-zone-active{
+    cursor: pointer;
+    background-color: #09195c;
+    color: white;
+}
+
+.user-zone-active:hover{
+    box-shadow: rgba(240, 46, 170, 0.4) 5px 5px, rgba(240, 46, 170, 0.3) 10px 10px, rgba(240, 46, 170, 0.2) 15px 15px, rgba(240, 46, 170, 0.1) 20px 20px, rgba(240, 46, 170, 0.05) 25px 25px;
+}
+
+.user-zone-options{
+    top: 110px;
+    background-color: #09195c;
+    color: white;
+    border-radius: 10px;
+    z-index: 9999;
+}
+
+.user-zone-options div:hover{
+    cursor: pointer;
+    color: rgb(202, 29, 58);
+}
+
+.user-zone-options-visible{
+    display: block;
+}
+
+.profile-pic{
+    width: 60px;
+    max-height: 60px;
+}
+
+.sign-up-window, .log-in-window{
+    right: -260px;
+    top: 20px;
+    transition: 0.4s;
+    background-color: #09195c;
+    z-index: 9999;
+    border-radius: 10px;
+    color: white;
+}
+
+.form-image{
+    width: 259px;
+}
+
+.active-window{
+    right: 20px;
+}
+
+.close-window-button{
+    color: red;
+    border-top-left-radius: 10px;
+    background-color: white;
+    padding-bottom: 3px;
+    padding-left: 7px;
+    font-size: 1.2em;
+    text-shadow: 2px 0 black, -2px 0 black, 0 2px black, 0 -2px black;
+}
+
+.profile-pic-label{
+    border: 2px solid black;
+    cursor: pointer;
+    background-color: #dbdbdb;
+    color: black;
+}
+
+.profile-pic-label:hover{
+    border-color: blue;
+}
+
+.error-info{
+    max-width: 200px;
+    color: #d11f0b;
+}
+
+.return-btn{
+    background-color: #e71e07;
+    padding: 10px;
+    font-size: 16px;
+    position: fixed;
+    top: 10px;
+    left: 10px;
+}
+
+.options, .body-parts-menu, .option-content, .saved-sprites-list, .saved-sprites-buttons, .scene-builder,.sprites-scene-builder{
+    gap: 10px;
+}
+
+.body-parts-menu{
+    max-width: 800px;
+}
+
+.option-content{
+    background-color: rgba(0, 0, 0, 0.4);
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.option-content::-webkit-scrollbar-thumb{
+    background: white;
+    border-radius: 10px;
+    border: 2px solid black;
+}
+
+.option-content::-webkit-scrollbar-thumb:hover {
+    background: #c5c5c5;
+}
+
+.option-item{
+    width: 200px;
+    text-align: center;
+    padding: 10px;    
+    cursor: pointer;
+    color: white;
+}
+
+.option-item p{
+    background-color: black;
+    border-radius: 10px;
+}
+
+.option-item img{
+    width: 150px;
+}
+
+.option-item:hover{
+    color: yellow;
+}
+
+.option-item:hover img{
+    opacity: 0.7;
+}
+
+.options button{
+    word-wrap: break-word;
+    width: 40px;
+    font-size: 1.5rem;
+}
+
+.option-btn{
+    background-color: white;
+    border: 2px solid grey;
+}
+
+.option-btn:hover{
+    border: 2px solid black;
+}
+
+.selected{
+    background-color: greenyellow;
+    border: 2px solid black;
+}
+
+.spriteControls{
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.slider{
+    appearance: unset;
+    border-radius: 50px;
+    height: 14px;
+    width: 155px;
+    outline: 1px solid black;
+    background-color: white;
+}
+
+.div-slider{
+    margin: 8px 0;
+}
+
+.slider::-webkit-slider-thumb{
+    -webkit-appearance: none;
+    appearance: none;
+    width: 23px;
+    height: 24px;
+    border: 0;
+      border-radius: 50%;
+    background-image: url(../img/billBala.png);
+    background-size: contain;
+    background-position: center center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+
+.reset-icon{
+    width: 20px;
+}
+
+.reset-icon:hover{
+    cursor: pointer;
+}
+
+.reset-value-btn{
+    background-color: transparent;
+}
+
+.spriteControls label{
+    color: red;
+    text-shadow: 2px 0 #fff, -2px 0 #fff, 0 2px #fff, 0 -2px #fff,
+             1px 1px #fff, -1px -1px #fff, 1px -1px #fff, -1px 1px #fff;
+}
+
+.sliderBodyPart{
+    background-color: yellow !important;
+}
+
+.bodyPartSelectors{
+    background-color: rgba(0, 0, 0, 0.6);
+    border: 3px solid transparent;
+}
+
+.bodyPartSelectors div:hover{
+    cursor: pointer;
+}
+
+.activeBodyPartSelector{
+    outline: 3px solid yellow;
+}
+
+.bodyPartSelectors img{
+    width: 50px;
+    user-select: none;
+}
+
+.add-sprite-btn{
+    background-color: rgb(140, 0, 255);
+    color: white;
+}
+
+.add-sprite-btn span{
+    font-family: var(--pixeloidSans);
+    font-size: 30px;
+    color: gold;
+}
+
+.save-sprite-btn{
+    background-color: #17d306;
+    width: 100px;
+    height: 50px;
+    font-size: 1.2em;
+    border: 2px solid black;
+}
+
+.save-sprite-btn:hover{
+    background-color: deepskyblue;
+    border-color: white;
+}
+
+.saved-sprites-menu{
+    background-color: rgba(0, 0, 0, 0.4);
+    height: 0px;
+    overflow: hidden;
+    transition: 0.3s;
+}
+
+.saved-sprite{
+    background-color: #eeeeeea4;
+    border: 2px solid black;
+    position: relative;
+    cursor: pointer;
+}
+
+.discard-sprite{
+    color: red;
+    top: 0;
+    right: 0;
+    background-color: white;
+    width: 20px;
+    font-size: 1.2em;
+    padding-bottom: 3px;
+    padding-left: 3px;
+    text-shadow: 2px 0 black, -2px 0 black, 0 2px black, 0 -2px black;
+
+}
+
+.discard-sprite:hover{
+    outline: 2px solid red;
+    cursor: pointer;
+}
+
+.discard-sprite:hover span{
+    animation-name: swing;
+    animation-duration: 0.5s;
+}
+
+.spriteDiscarded{
+    animation-name: swirl;
+    animation-duration: 1s;
+}
+
+.backgrounds-menu{
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.background img:hover{
+    cursor: pointer;
+    outline: 4px solid orange;
+}
+
+.background{
+    width: 400px;
+}
+
+.upload-background-image-label{
+    background-color: #307df1;
+    cursor: pointer;
+    border: 2px solid black;
+}
+
+.upload-background-image-label:hover{
+    border-color: white;
+}
+
+.background img{
+    width: 400px;
+    user-select: none;
+}
+
+.zoomed{
+    position: absolute;
+    transition: 0.5s;
+}
+
+.confirm-buttons{
+    left: 0;
+    right: 0;
+    gap: 20px;
+}
+
+.confirm-buttons button{
+    padding: 8px;
+    animation-name: scaleAndReturn;
+    animation-duration: 0.3s;
+    background-color: #17d306;
+    user-select: none;
+    margin-bottom: 20px;
+}
+
+/* SCENE BUILDER STYLES */
+
+.sprites-scene-builder{
+    max-height: 200px;
+}
+
+.paint-board{
+    background-color: orange;
+    border: 2px solid black;
+    border-radius: 10px;
+}
+
+.paint-board button{
+    border-radius: 10px;
+    background-color: #ffffffab;
+}
+
+.paint-board span{
+    width: 40px;
+    display: inline-block;
+}
+
+.paint-board button img{
+    width: 60px;
+}
+
+.text-customization{
+    background-color: white;
+    border: 2px solid black;
+    border-radius: 10px;
+}
+
+.scene-builder .slider{
+    width: 140px;
+}
+
+.sprite-scene-builder{
+    border: 2px solid black;
+    background-color: rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+}
+
+.sprite-scene-builder img{
+    max-width: 140px;
+    width: 100%;
+    transition: 0.2s;
+}
+
+.sprite-scene-builder:hover img{
+    transform: scale(1.2);
+}
+
+.scene-builder-center{
+    margin: 0 auto;
+}
+
+.scene-builder-right-side img{
+    border-radius: 8px;
+    padding: 8px;
+    border: 3px solid black;
+    width: 60px;
+    cursor: pointer;
+}
+
+.tooltip{
+    pointer-events: none;
+}
+
+.right-side-btn:hover .tooltip{
+    opacity: 1;
+}
+
+.tooltip{
+    bottom: 100px;
+    background-color: black;
+    width: 120px;
+    left: -30px;
+    color: white;
+    border-radius: 10px;
+    opacity: 0;
+}
+
+.delete-button{
+    background-color: #e71e07;
+}
+
+.clear-canvas-btn{
+    background-color: yellow;
+}
+
+.display-background-menu-btn{
+    background-color: #009cda;
+}
+
+.text-box-btn{
+    background-color: aquamarine;
+}
+
+.download-btn{
+    background-color: rgb(175, 175, 175);
+}
+
+.save-canvas-btn{
+    background-color: rgb(31, 202, 16);
+}
+
+/* CANVAS GALLERY STYLES */
+
+.gallery-menu{
+    background-color: rgb(175, 175, 175, 0.50);
+}
+
+.user-canvas{
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    transition: 0.3s;
+}
+
+.user-canvas:hover{
+    box-shadow: rgba(255, 0, 0, 0.205) 0px 54px 55px, rgba(255, 0, 0, 0.205) 0px -12px 30px, rgba(255, 0, 0, 0.205) 0px 4px 6px, rgba(255, 0, 0, 0.205) 0px 12px 13px, rgba(255, 0, 0, 0.205) 0px -3px 5px;
+}
+
+/* Animations */
+
+@keyframes scaleAndReturn {
+    50%{
+        scale: 1.2;
+    }
+    100%{
+        scale: 1;
+    }
+}
+
+@keyframes swing{
+    25%{
+        transform: rotate(20deg);
+    }
+    50%{
+        transform: rotate(-20deg);
+    }
+    75%{
+        transform: rotate(20deg);
+    }
+}
+
+@keyframes swirl {
+    0% {
+        transform: rotate(0deg) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: rotate(360deg) scale(0);
+        opacity: 0;
+    }
+  }

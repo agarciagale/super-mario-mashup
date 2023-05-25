@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mario Mashup</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+
+    <!-- PIXI.js 7.2.3 -->
+    <script src="assets/js/pixi.min.js"></script>
+    <!-- FABRIC.js 5.3.0 -->
+    <script src="assets/js/fabric.min.js"></script>
+
+    <script src="assets/js/app.js" defer></script>
+    <script src="assets/js/backend.js" defer></script>
+</head>
+<body>
+    <header>
+        <div class="header">
+            <div class="p-fixed warning-window" id="warning-window">
+
+            </div>
+            <div class="d-flex">
+                <div class="col-12 d-flex justify-content-center">
+                    <div class="d-flex col-4 justify-content-center align-items-center">
+                        <div class="d-flex col-4 info-zone justify-content-space-around p-2">
+                            <img src="assets/icons/help-circle.svg" alt="">
+                            <img src="assets/icons/github-circle.svg" alt="">
+                        </div>
+                    </div>
+                    <div class="d-flex col-4 justify-content-center">
+                        <img src="assets/img/logo2.png" alt="" width="300px">
+                    </div>
+                    <div class="d-flex col-4 justify-content-end align-items-center">
+                        <div class="p-relative mh-2">
+                            <div class="d-flex align-items-center gap-1 p-2 user-zone" id="user-zone">
+                                <div class="d-flex gap-1 align-items-center" id="user-zone-logged-out">
+                                    <div class="d-flex gap-1" id="register-buttons">
+                                        <button class="p-1" id="log-in-btn">Log in</button>
+                                        <button class="p-1" id="sign-up-btn">Sign up</button>
+                                    </div>
+                                </div>
+                                <div class="d-none gap-1 align-items-center" id="user-zone-logged-in">
+                                    
+                                </div>
+                                <img src="assets/icons/profile-circle.svg" class="profile-pic" alt="" id="profile-pic">
+                            </div>
+                            <div class="d-none p-absolute p-1 user-zone-options" id="user-zone-options">
+                                <div class="d-flex gap-1 justify-content-baseline align-items-center" id="show-gallery-btn">
+                                    <img src="assets/icons/media-image-list.svg" alt="">
+                                    <span>My gallery</span>
+                                </div>
+                                <div class="d-flex gap-1 justify-content-baseline align-items-center" id="log-out-btn">
+                                    <img src="assets/icons/log-out.svg" alt="">
+                                    <span>Log out</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-block p-absolute log-in-window" id="log-in-window">
+                            <button id="close-log-in-window" class="d-flex justify-content-center close-window-button">
+                                <span>x</span>
+                            </button>
+                            <img src="assets/img/backgrounds/form-image.png" alt="" class="form-image">
+                            <div class="d-flex p-2 gap-1 flex-column align-items-start">
+                                <label for="username-login">Username:</label>
+                                <input type="text" id="username-login">
+                                <label for="password-login">Password:</label>
+                                <input type="password" id="password-login">
+                            </div>
+                            <div class="d-flex flex-column gap-1 align-items-center">
+                                <button class="p-1" id="log-in-action">Log in</button>
+
+                                <div class="error-info p-2 text-center">
+                                    <span id="error-log-in"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-block p-absolute sign-up-window" id="sign-up-window">
+                            <div class="d-flex justify-content-start">
+                                <button id="close-sign-up-window" class="d-flex justify-content-center close-window-button">
+                                    <span>x</span>
+                                </button>
+                            </div>
+                            <img src="assets/img/backgrounds/form-image.png" alt="" class="form-image">
+                            <div class="d-flex p-2 gap-1 flex-column align-items-start">
+                                <label for="email-register">Email:</label>
+                                <input type="email" id="email-register">
+                                <label for="username-register">Username:</label>
+                                <input type="text" id="username-register">
+                                <label for="password-register">Password:</label>
+                                <input type="password" id="password-register">
+                            </div>
+                            <div class="d-flex flex-column gap-1 align-items-center">
+                                <span>Profile picture</span>
+                                <label for="profile-pic-input" class="d-flex flex-column align-items-center text-center p-1 profile-pic-label" id="profile-pic-label">
+                                    <img src="assets/icons/upload.svg" alt="">
+                                </label>
+                                <input type="file" id="profile-pic-input" class="d-none">
+                                
+                                <button class="p-1" id="sign-up-action">Sign up</button>
+
+                                <div class="error-info p-2 text-center">
+                                    <span id="error-sign-up"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="main">
+            <!-- Body parts menu and sprite editor-->
+            <div class="d-none flex-wrap justify-content-center create-sprite-menu" id="create-sprite-menu">
+                <button class="d-flex justify-content-center align-items-center gap-1 return-btn"><img src="assets/icons/arrow-left.svg" alt="">Return</button>
+                <!-- Body parts menu -->
+                <div class="d-flex body-parts-menu justify-content-center" id="body-parts-menu">
+                    <!-- Tabs options -->
+                    <div class="d-flex">
+                        <div class="options d-flex flex-column">
+                            <button class="option-btn selected" data-value="heads-menu">Head</button>
+                            <button class="option-btn" data-value="bodies-menu">Body</button>
+                            <button class="option-btn" data-value="legs-menu">Legs</button>
+                        </div>
+                        <div class="d-flex flex-column">
+        
+                        </div>
+                    </div>
+                    <!-- Content of each option, (head, body and legs) -->
+                    <div class="d-flex">
+                        <!-- Heads menu -->
+                        <div class="d-flex flex-wrap justify-content-space-between align-items-baseline align-content-start option-content" id="heads-menu">
+                            <div class="d-flex flex-column align-items-center option-item">
+                                <img src="assets/img/heads/mario8bithead.png" alt="">
+                                <p class="p-1">Mario</p>
+                            </div>
+                            <div class="d-flex flex-column align-items-center option-item">
+                                <img src="assets/img/heads/luigi8bithead.png" alt="">
+                                <p class="p-1">Luigi</p>
+                            </div>
+                            <div class="d-flex flex-column align-items-center option-item">
+                                <img src="assets/img/heads/peach8bithead.png" alt="">
+                                <p class="p-1">Peach</p>
+                            </div>
+                            <div class="d-flex flex-column align-items-center option-item">
+                                <img src="assets/img/heads/toad8bithead.png" alt="">
+                                <p class="p-1">Toad</p>
+                            </div>
+                        </div>
+                        <!-- Bodies menu -->
+                        <div class="d-none flex-wrap option-content justify-content-space-between align-items-baseline align-content-start" id="bodies-menu">
+                            <div class="d-flex flex-column align-items-center option-item">
+                                <img src="assets/img/bodies/mario8bitbody.png" alt="">
+                                <p class="p-1">Mario</p>
+                            </div>
+                            <div class="d-flex flex-column align-items-center option-item">
+                                <img src="assets/img/bodies/luigi8bitbody.png" alt="">
+                                <p class="p-1">Luigi</p>
+                            </div>
+                            <div class="d-flex flex-column align-items-center option-item">
+                                <img src="assets/img/bodies/peach8bitbody.png" alt="">
+                                <p class="p-1">Peach</p>
+                            </div>
+                            <div class="d-flex flex-column align-items-center option-item">
+                                <img src="assets/img/bodies/toad8bitbody.png" alt="">
+                                <p class="p-1">Toad</p>
+                            </div>
+                        </div>
+                        <!-- Legs menu -->
+                        <div class="d-none flex-wrap option-content justify-content-space-between align-items-baseline align-content-start" id="legs-menu">
+                            <div class="d-flex flex-column align-items-center option-item">
+                                <img src="assets/img/legs/mario8bitlegs.png" alt="">
+                                <p class="p-1">Mario</p>
+                            </div>
+                            <div class="d-flex flex-column align-items-center option-item">
+                                <img src="assets/img/legs/luigi8bitlegs.png" alt="">
+                                <p class="p-1">Luigi</p>
+                            </div>
+                            <div class="d-flex flex-column align-items-center option-item">
+                                <img src="assets/img/legs/peach8bitlegs.png" alt="">
+                                <p class="p-1">Peach</p>
+                            </div>
+                            <div class="d-flex flex-column align-items-center option-item">
+                                <img src="assets/img/legs/toad8bitlegs.png" alt="">
+                                <p class="p-1">Toad</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Sprite editor -->
+                <div class="d-flex justify-content-center" id="sprite-editor">    
+                    <div class="stage d-flex" id="stage">
+        
+                    </div>
+                    <div class="d-flex flex-column p-1 spriteControls">
+                        <label for="y-slider">Move vertically</label>
+                        <div class="d-flex align-items-center justify-content-space-between div-slider">
+                            <input type="range" min="0" max="600" value="300" class="slider" id="y-slider" reset-value="300">
+                            <img src="assets/icons/refresh.svg" alt="" class="reset-icon">
+                        </div>
+                        <label for="width-slider">Width</label>
+                        <div class="d-flex align-items-center justify-content-space-between div-slider">
+                            <input type="range" min="10" max="290" value="150" class="slider" id="width-slider" reset-value="150">
+                            <img src="assets/icons/refresh.svg" alt="" class="reset-icon">
+                        </div>
+                        <label for="height-slider">Height</label>
+                        <div class="d-flex align-items-center justify-content-space-between div-slider">
+                            <input type="range" min="10" max="370" value="180" class="slider" id="height-slider" reset-value="180">
+                            <img src="assets/icons/refresh.svg" alt="" class="reset-icon">
+                        </div>
+                        <label for="scale-slider">Scale</label>
+                        <div class="d-flex align-items-center justify-content-space-between div-slider">
+                            <input type="range" min="0.1" max="2.8" step="0.01" value="1" class="slider" id="scale-slider" reset-value="1">
+                            <img src="assets/icons/refresh.svg" alt="" class="reset-icon">
+                        </div>
+                        <label for="skew-slider-x">Skew X</label>
+                        <div class="d-flex align-items-center justify-content-space-between div-slider">
+                            <input type="range" min="-1" max="1" step="0.01" value="0" class="slider" id="skew-slider-x" reset-value="0">
+                            <img src="assets/icons/refresh.svg" alt="" class="reset-icon">
+                        </div>
+                        <label for="skew-slider-y">Skew Y</label>
+                        <div class="d-flex align-items-center justify-content-space-between div-slider">
+                            <input type="range" min="-1" max="1" step="0.01" value="0" class="slider" id="skew-slider-y" reset-value="0">
+                            <img src="assets/icons/refresh.svg" alt="" class="reset-icon">
+                        </div>
+                        <label for="angle-slider">Angle</label>
+                        <div class="d-flex align-items-center justify-content-space-between div-slider">
+                            <input type="range" min="0" max="360" step="1" value="0" class="slider" id="angle-slider" reset-value="0">
+                            <img src="assets/icons/refresh.svg" alt="" class="reset-icon">
+                        </div>
+        
+                        <button class="m-bottom-1" id="reverse-button">Reverse</button>
+                        <button class="delete-button" id="delete-button">Delete</button>
+        
+                        <div class="d-flex bodyPartSelectors mv-1">
+                            <div class="d-flex justify-content-center align-items-center pv-1 col-4" id="head-selector">
+                                <img src="assets/img/heads/mario8bithead.png" alt="">
+                            </div>
+                            <div class="d-flex justify-content-center align-items-center pv-1 col-4" id="body-selector">
+                                <img src="assets/img/bodies/mario8bitbody.png" alt="">
+                            </div>
+                            <div class="d-flex justify-content-center align-items-center pv-1 col-4" id="legs-selector">
+                                <img src="assets/img/legs/mario8bitlegs.png" alt="">
+                            </div>
+                        </div>
+        
+                        <div class="d-flex justify-content-center">
+                            <button class="save-sprite-btn" id="save-sprite-btn">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Backgrounds menu -->
+            <div class="d-none flex-column" id="backgrounds-menu">
+                <div class="col-12 pv-1">
+                    <button class="d-flex justify-content-center align-items-center gap-1 return-btn"><img src="assets/icons/arrow-left.svg" alt="">Return</button>
+                </div>
+                <div class="col-12 backgrounds-menu">
+                    <div class="col-12 p-2">
+                        <div class="d-flex justify-content-center">
+                            <label for="upload-background-image-input" id="upload-background-image">
+                                <div class="d-flex gap-1 p-1 justify-content-center align-items-center upload-background-image-label">
+                                    <span>Upload image</span>
+                                    <img src="assets/icons/media-image-folder.svg" alt="">
+                                </div>
+                            </label>
+                            <input type="file" class="d-none" id="upload-background-image-input">
+                        </div>
+                    </div>
+                    <div class="d-flex flex-wrap justify-content-center align-items-center backgrounds-list" id="backgrounds-list">
+                        <div class="d-flex background justify-content-center align-items-center m-1">
+                            <img src="assets/img/backgrounds/0.jpg" alt="">
+                        </div>
+                        <div class="d-flex background justify-content-center align-items-center m-1">
+                            <img src="assets/img/backgrounds/1.jpg" alt="">
+                        </div>
+                        <div class="d-flex background justify-content-center align-items-center m-1">
+                            <img src="assets/img/backgrounds/donkey-kong.png" alt="">
+                        </div>
+                        <div class="d-flex background justify-content-center align-items-center m-1">
+                            <img src="assets/img/backgrounds/mario-galaxy.jpg" alt="">
+                        </div>
+                        <div class="d-flex background justify-content-center align-items-center m-1">
+                            <img src="assets/img/backgrounds/peach-castle.jpg" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- User canvasses gallery -->
+            <div class="d-none flex-column" id="gallery-menu">
+                <div class="col-12 pv-1">
+                    <button class="d-flex justify-content-center align-items-center gap-1 return-btn"><img src="assets/icons/arrow-left.svg" alt="">Return</button>
+                </div>
+                <div class="col-12 gallery-menu">
+                    <div class="d-flex flex-wrap justify-content-center align-items-center canvasses-list" id="canvasses-list">
+                        
+                    </div>
+                </div>
+            </div>
+            <!-- Scene builder (main menu) -->
+            <div class="d-flex scene-builder flex-column" id="scene-builder">
+                <!-- Saved sprites menu -->
+                <div class="d-flex flex-column saved-sprites-menu" id="saved-sprites-menu">
+                    <div id="saved-sprites-menu-wrapper">
+                        <div class="col-12">
+                            <div class="d-flex justify-content-start saved-sprites-buttons p-2">
+                                <button class="d-flex align-items-center gap-1 p-1 add-sprite-btn" id="add-sprite-btn">Add new sprite<span>+</span></button>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="d-flex flex-wrap justify-content-center saved-sprites-list" id="saved-sprites-list">
+            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Scene builder main div -->
+                <div class="d-flex gap-1--laptop flex-wrap row">
+                    <!-- Scene builder left side -->
+                    <div class="d-flex col-12--laptop flex-row--laptop align-items-end--laptop gap-1--laptop col-2 flex-column align-items-center justify-content-space-around scene-builder-left-side">
+                        <div class="d-flex flex-column text-center">
+                            <h2>Sprites</h2>
+                            <div class="d-flex flex-column justify-content-center sprites-scene-builder" id="sprites-scene-builder">
+                                <div class="d-flex justify-content-center p-1 sprite-scene-builder">
+                                    <div>
+                                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANUAAADxCAYAAABcffKjAAAAAXNSR0IArs4c6QAAC71JREFUeF7tnU+qXFUQh2/r0IEgaJYgintIZhEzCo+gIGIy0JkbcJI4cQWOBPFBnAiJjiI48Q+4AXHqClxAhj5xICSdZ/9u1am6tyrny7RPnT73q/r6d/vR3Tkszf5dLMtFsyO3Pe5hWQ5tD7/jwdtBQ6rtpgWpfKyRysdtiiqk8rUZqXzcpqhCKl+bkcrHbYoqpPK1Gal83KaoQipfm5HKx22KKqTytRmpfNymqEIqX5uRysdtiiqk8rUZqXzcpqhCKl+bkcrHbYoqpPK1Gal83KaoQipfm5HKx22KKqTytRmpfNymqEIqX5uRysdtiiqk8rUZqXzcpqhCKl+bkcrHbYoqpPK1Gal83KaoQipfmzeTii8X+hpEVTyB7BcLpIrvGTsWJ4BUxRvE8foRQKp+PePExQkgVfEGcbx+BJCqX884cXECSFW8QRyvHwGk6tczTlycAFIVbxDH60cAqfr1jBMXJ4BUxRvE8foRQKp+PePExQkgVfEGcbx+BJCqX884cXECSFW8QRyvHwGk6tczTlycAFIVbxDH60cAqfr1jBMXJ/DcSHXv+mvP5f/V+8m7V5dXXn6p1Bgdzs5DznPx8HbIPoez882+DBty4MFNNrtYpBrslKEcqQywEpYi1SBUkkoDJKk0I9cKksqFzVVEUrmwhRWRVIMoSSoNkKTSjFwrSCoXNlcRSeXCFlZEUg2iJKk0QJJKM3KtIKlc2FxFJJULW1gRSTWIkqTSAEkqzci1gqRyYXMVkVQubGFFJNUgSpJKAySpNCPXCpLKhc1VRFK5sIUVkVSDKEkqDZCk0oxcK0gqFzZXEUnlwhZWRFINoiSpNECSSjNyrSCpXNhcRSSVC1tYEUk1iJKk0gBJKs3ItYKkcmFzFZFULmxhRTKpomS4+/E7IYf+7MsfQvaJOk/IYYI3qSZV8OUNb5ednEg13KJ6GyDV6Z4g1REfkkpLjFRIpafkiRVIpXEhFVLpKUEqEyOkQirTwJBUGhdSIZWeEpLKxAipkMo0MCSVxoVUSKWnhKQyMUIqpDINDEmlcSEVUukpIalMjJAKqUwDQ1JpXEiFVHpKSCoTI6RCKtPAkFQaF1IhlZ4SksrECKmQyjQwJJXGhVRIpaeEpDIxQiqkMg0MSaVxIRVS6SlJSCrTk55YXPE3KqKuDTkFyb+Xs8Ot8++OV037zd+owUMqTTLqP+TWz7TxCqTKAY5UmitSHTF6Xn/4RY/CuhVIpTkhFVLpKXliBVJpXEiFVHpKkMrECKmQyjQwJJXGhVRIpaeEpDIxQiqkMg0MSaVxIRVS6SkhqUyMkAqpTANDUmlcSIVUekpIKhMjpEIq08CQVBoXUiGVnhKSysQIqZDKNDAklcaFVEilp4SkMjFCKqQyDQxJpXEhFVLpKSGpTIyQyoRr/eJqXyFZf/J+K6O+sdvvylefWH45d/VOlyxM3fzJ50OqkTbZapFK8kqd+9TNkUo2N2UBUkmsqXOfujlSyeamLEAqiTV17lM3RyrZ3JQFSCWxps596uZIJZubsgCpJNbUuU/dHKlkc1MWIJXEmjr3qZsjlWxuygKkklhT5z51c6SSzU1ZgFQSa+rcp26OVLK5KQuQSmJNnfvUzZFKNjdlAVJJrKlzn7o5UsnmpixAKok1de5TN0cq2dyUBUglsabOfermSCWbm7IAqSTW1LlP3RypZHNTFiCVxJo696mbI5VsbsoCpJJYU+c+dXOkks1NWYBUEmvq3KdujlSyuSkLkEpiTZ371M2fkurtV2/LS12x4O5HN75esWzqJec//1nq+u988dudUgdalvPM82wmVdRFXDy8fRG1F/tsQ+Bwdt5uzkbItLtYpBpp9z61SLUP99XPilSrUZVZiFRlWnH5QZCqeIMuOR5SFe8ZUhVvEFItvKfqN6PtTkxSFW8ZSVW8QSQVSdVvRPudmKQq3jOSqniDSCqSqt+I9jsxSVW8ZyRV8QaRVCRVvxHtd2KSqnjPSKriDSKpSKp+I9rvxCRV8Z6RVMUbRFKRVP1GtN+JSariPSOpijeIpOqXVNaRuliW9C81Xrv5yHqs5Zfvb5hrPAWFz/biYVn+9lxT9Zp2H6i1AkWqssIjlXWYq6xHKqTaehZJqgDihW+xlsJnI6kCZm+XLUgqkmrrwSOpAogXTgOSKqC/1i2QykrskvVI5YLI7Z8LW4Eibv+4/dt6DEmqAOIklQsiSeXCVqCIpCKpth5DkiqAOEnlgkhSubAVKCKpSKqtx5CkCiBOUrkgklQubMFFW6SO58hI5aFmrzksPT4A3iqpkMo+iJWFt14NUlmJrViPVCsgHS1BKjuz0QqSapTgslT+KFDps1nRk1RWYivWk1QrIJFUdkjBFSRVANDKt1iVz2ZFT1JZia1YT1KtgERS2SEFV5BUAUArp0Hls1nRk1RWYivWk1QrIJFUdkjBFSRVANDKaVD5bFb0JJWV2Ir1JNUKSCSVHVJwBUkVALRyGlQ+mxU9SWUltmI9SbUCEkllhxRcsVtSVRXEw9eTBp7n2apmq1/P3eJ69kg3pAroLFIFQEzaAqmSwGZvi1TZhP37I5Wf3a6VSLUr/pNPjlR1e3PyZEhVt3FIVbc3SNW0N0jVtHEkVd3GIVXd3pBUTXuDVE0bR1LVbRxS1e0NSdW0N0jVtHEkVd3GIVXd3pBUTXuDVE0bR1LVbdxcUj28fbFJK87OTU9z//X3lq/e/MBU88uXn5vW/7v42sefmms8BVuc7crjv5Zvf7xjO96DD5flkP/R08PZef6THF355k/43/NfIJVtCJ2rkQqpnKNzooykMjO1pihJ9TRikupo5Lj9s9+aIhVSnXzlRiqkMkc776lOI0MqpEIqRYD3VIrQM4/znsqM7KkC3lPxngqpxhx6phqpkAqpkMpIgNs/IzDeU5mB8YcK/lChhob3VIrQ6ce5/eP2j9u/MYd4T6X48Sd1bv/UjKjHn/+kUgSOk+qPN5avfn/LWDX38isvPV6+vfmoJAQ+UFugLfeRytwFpHoaGUlFUpklOi5AKqQ6OUQkld0xpEIqpLJ7c7ICqZAKqZAqmABSIVXwSJFUSIVUSBVMAKmQKnikSCqkQiqkCiaAVEgVPFIkFVIhFVIFE0AqpAoeKZJqMqmufXMreITYLoLAT+8/WF445P9IMR+ojejW0R5IlQA1YEukCoB4vMVWP/uMVAnNC9gSqQIgIlUCxMZbIlVC80iqBKiNtkSqhGYhVQLURlsiVUKzkCoBaqMtkSqhWUiVALXRlkiV0CykSoDaaEukSmgWUiVAbbQlUiU0C6kSoDbaEqkSmoVUCVAbbYlUjZr15FGv3nyU/+EyJ5tfv7+R/vNws1+/szXDZemNHT7hwAazD9Xs1z8wOkOlSDWEz19MUuUntb87Y5VINcbPXY1USOUenj0LZ7/9mf3695o9kmon8iQVSbXT6I097eyv1LNf/9j0+KtJKj+7oUqSiqQaGqC9imd/pZ79+veaO5JqJ/IkFUm10+iNPe3sr9SzX//Y9PirSSo/u6FKkoqkGhqgvYpnf6We/fr3mrtWSXXv+mslPyB778e/WnE8NWwwHlex1TDQ8PGGqx1grAjpx5FKM5IrSCqJaHhBJ8ZINdzuZenUcHW5JJUipB9HKs1IrkAqiWh4QSfGSDXcbpIqAKHcAqkkIt8Cbk183CxVMLbQunwtSTXOkPdUAQzVFiSVIuR8nFdRJzhDGYwNsP5nKUk1zpCkCmCotiCpFCHn47yKOsEZymBsgEVSjcP6vx06vYoqCkilCOnHuf3TjOQKpJKIhhd0YrybVFVfET3d79RwdX30RRHSjyOVZiRXIJVEtMuCvfqCVAHt3qt5AUd/ZguSapwqUo0z5E/qAQwzttjrxQ6pArq5V/MCjk5SJUBEqgCoSBUAMWGLvfqCVAHN3Kt5AUcnqRIgIlUAVKQKgJiwxV59QaqAZu7VvICjk1QJEJEqACpSBUBM2GKvviBVQDP3al7A0UmqBIhIFQAVqQIgJmyxV1/+AcyZAVtQdAQNAAAAAElFTkSuQmCC">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex paint-board p-1" id="paint-board">
+                            <div class="d-flex flex-row--laptop flex-column align-items-center gap-1">
+                                <button id="drawing-mode-btn"><img src="assets/icons/edit-pencil.svg" alt="" id="drawing-mode-btn"></button>
+                              
+                                <div class="d-flex flex-row--laptop gap-1 align-items-center--laptop flex-column justify-content-baseline" id="drawing-mode-options">
+                                  <div class="d-flex flex-column">
+                                      <div class="d-flex justify-content-space-between align-items-center">
+                                          <label for="drawing-line-width">Line width:</label>
+                                          <span class="text-center" id="pencil-width-indicator">5</span>
+                                      </div>
+                                      <input type="range" value="5" min="1" max="100" class="slider" id="drawing-line-width">
+                                  </div>
+                                  <div class="d-flex flex-column">
+                                      <div class="d-flex justify-content-space-between align-items-center">
+                                          <label for="drawing-shadow-width">Shadow width:</label>
+                                          <span class="text-center" id="drawing-shadow-blur-indicator">0</span>
+                                      </div>
+                                      <input type="range" value="0" min="0" max="50" class="slider" id="drawing-shadow-blur">
+                                  </div>
+                                  <div class="d-flex flex-column">
+                                      <div class="d-flex justify-content-space-between align-items-center">
+                                          <label for="drawing-shadow-offset">Shadow offset:</label>
+                                          <span class="text-center" id="drawing-shadow-offset-indicator">0</span>
+                                      </div>
+                                      <input type="range" value="0" min="0" max="50" class="slider" id="drawing-shadow-offset">
+                                  </div>
+                                  <div>
+                                      <div class="d-flex justify-content-space-between align-items-center">
+                                          <label for="drawing-color-picker">Line color:</label>
+                                          <input type="color" value="#000000" id="drawing-color-picker">
+                                      </div>
+                                      <div class="d-flex justify-content-space-between align-items-center">
+                                          <label for="drawing-shadow-color">Shadow color:</label>
+                                          <input type="color" value="#FFFFFF" id="drawing-shadow-color-picker">
+                                      </div>
+                                  </div>
+                                </div>
+                              </div>
+                        </div>
+                    </div>
+                    <!-- Scene builder center (canvas) -->
+                    <div class="col-12--laptop">
+                        
+                    </div>
+                    <div class="d-flex col-11--laptop align-items-center justify-content-center flex-column col-8 scene-builder-center" id="scene-builder-center">
+                        <div class="d-flex background-scene-builder" id="background-scene-builder">
+                            <canvas id="scene-builder-canvas"></canvas>
+                        </div>
+                    </div>
+                    <!-- Scene builder right side -->
+                    <div class="d-flex col-12--laptop flex-row--laptop gap-1--laptop align-items-center--laptop flex-column justify-content-space-around col-2 scene-builder-right-side">
+                        <div class="d-flex flex-wrap flex-no-wrap--laptop gap-0--laptop  gap-1 justify-content-space-around">
+                            <div class="right-side-btn p-relative">
+                                <img src="assets/icons/delete.svg" alt="" class="delete-button" id="delete-active-object-btn">
+                                <span class="text-center p-1 p-absolute tooltip">Delete</span>
+                            </div>
+                            <div class="right-side-btn p-relative">
+                                <img src="assets/icons/restart.svg" alt="" class="clear-canvas-btn" id="clear-canvas-btn">
+                                <span class="text-center p-1 p-absolute tooltip">Clear</span>
+                            </div>
+                            <div class="right-side-btn p-relative">
+                                <img src="assets/icons/add-media-image.svg" alt="" class="display-background-menu-btn" id="display-background-menu-btn">
+                                <span class="text-center p-1 p-absolute tooltip">Change background</span>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <div class="d-flex flex-row--laptop gap-1 flex-column align-items-center p-1 text-customization">
+                                <div class="right-side-btn p-relative">
+                                    <img src="assets/icons/text-alt.svg" alt="" class="text-box-btn" id="text-box-btn">
+                                    <span class="text-center p-1 p-absolute tooltip">Add textbox</span>
+                                </div>
+                                <div>
+                                    <label for="textColor">Text Color:</label>
+                                    <input type="color" id="text-color" value="#FFFFFF">
+                                </div>
+                                <div>
+                                    <label for="fontSize">Font Size:</label>
+                                    <input type="number" id="font-size" value="30" min="1" style="width: 50px;">
+                                </div>
+                                <div class="d-flex flex-column gap-1 justify-content-center">
+                                    <div class="d-flex gap-1 gap-0--laptop flex-row--laptop text-center flex-wrap justify-content-center--laptop flex-column align-items-center">
+                                        <label for="backgroundTextColor">Background color:</label>
+                                        <input type="color" id="text-background-color" value="#RRGGBB">
+                                        <button id="transparent-text-background-color">Transparent</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-column gap-3">
+                            <div class="d-flex justify-content-space-around">
+                                <div class="right-side-btn p-relative">
+                                    <img src="assets/icons/download.svg" alt="" class="download-btn" id="download-btn">
+                                    <span class="text-center p-1 p-absolute tooltip">Download</span>
+                                </div>
+                                <div class="right-side-btn p-relative">
+                                    <img src="assets/icons/cloud-download.svg" alt="" class="save-canvas-btn" id="save-canvas-btn">
+                                    <span class="text-center p-1 p-absolute tooltip">Save in gallery</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </main>
+    <footer>
+        <div class="footer">
+
+        </div>
+    </footer>
+</body>
+</html>
